@@ -16,13 +16,10 @@ const app = express();
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/upload", express.static("upload"));
+app.use("/upload",express.static("upload"))
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://student-data-management-e67eqqe45.vercel.app",
-    ],
+    origin: ["http://localhost:5173", "https://student-data-management-e67eqqe45.vercel.app"],
     credentials: true,
   }),
 );
@@ -41,18 +38,13 @@ app.use("/admin", AdminRouter);
 
 const port = process.env.PORT || 8000;
 //server listen
-const startServer = async () => {
+app.listen(port, async () => {
   try {
     await connectDb();
-
-    app.listen(port, () => {
-      console.log(`server is running on port ${port}`);
-      verifyNodemailerConnection();
-    });
+    console.log(`server is running on port ${port}`);
+    verifyNodemailerConnection();
+    
   } catch (error) {
-    console.log(error);
     process.exit(1);
   }
-};
-
-startServer();
+});
