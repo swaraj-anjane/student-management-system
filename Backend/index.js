@@ -19,11 +19,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/upload",express.static("upload"))
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://student-data-management-e67eqqe45.vercel.app"],
+    origin: [
+      "http://localhost:5173",
+      "https://student-data-management-ofjdrqffc.vercel.app/",
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   }),
 );
-
 //endPoint route handelers
 app.get("/", (req, res) => {
   res.status(200).json({ message: "server live" });
@@ -40,9 +43,9 @@ const port = process.env.PORT || 8000;
 //server listen
 app.listen(port, async () => {
   try {
-    // await connectDb();
+    await connectDb();
     console.log(`server is running on port ${port}`);
-    // verifyNodemailerConnection();
+    verifyNodemailerConnection();
     
   } catch (error) {
     process.exit(1);
