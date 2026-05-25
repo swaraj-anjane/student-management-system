@@ -40,7 +40,7 @@ const port = process.env.PORT || 8000;
 //server listen
 app.listen(port, async () => {
   try {
-    await connectDb();
+    // await connectDb();
     console.log(`server is running on port ${port}`);
     // verifyNodemailerConnection();
     
