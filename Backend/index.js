@@ -41,12 +41,16 @@ app.use("/admin", AdminRouter);
 
 const port = process.env.PORT || 8000;
 //server listen
-app.listen(port, async () => {
+const startServer = async () => {
   try {
     await connectDb();
-    console.log(`server is running on port ${port}`);
-    verifyNodemailerConnection();
+
+    app.listen(port, () => {
+      console.log(`server is running on port ${port}`);
+    });
   } catch (error) {
-    process.exit(1);
+    console.log(error);
   }
-});
+};
+
+startServer();
