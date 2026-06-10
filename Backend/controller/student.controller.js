@@ -3,9 +3,12 @@ const StudentModel = require("../model/student.model");
 async function registerStudent(req, res) {
   console.log("uploaded file details to controller", req.file);
   let payload = {...req.body}
-  if(req.file){
+  // if(req.file){
     // let imageUrl = `http://localhost:8080/${req.file.destination}/${req.file.filename}`
-let imageUrl = `${req.protocol}://${req.get("host")}/${req.file.destination}/${req.file.filename}`;  }
+if (req.file) {
+  let imageUrl = `${process.env.BASE_URL}/${req.file.destination}/${req.file.filename}`;
+  payload.image = imageUrl;
+}
   try {
     const createdStudent = await StudentModel.create(payload);
     res
