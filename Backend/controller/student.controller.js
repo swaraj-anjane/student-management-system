@@ -5,7 +5,7 @@ async function registerStudent(req, res) {
   let payload = {...req.body}
   if(req.file){
     let imageUrl = `http://localhost:8080/${req.file.destination}/${req.file.filename}`
-  payload.image =imageUrl
+let imageUrl = `${process.env.BASE_URL}/${req.file.destination}/${req.file.filename}`;  payload.image =imageUrl
   }
   try {
     const createdStudent = await StudentModel.create(payload);
