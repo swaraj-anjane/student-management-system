@@ -26,7 +26,7 @@ export default function StudentRegistrationForm({ setStudentList }) {
     formData.append("course", studentData.course);
     formData.append("contact", studentData.contact);
     formData.append("studentImage", studentData.studentImage[0]);
-        console.log("Registering student:", studentData);
+        // console.log("Registering student:", studentData);
 
     const response = await axiosInstance.post("/student", formData, {
       headers: {
@@ -35,111 +35,219 @@ export default function StudentRegistrationForm({ setStudentList }) {
     });
       console.log(response.data);
       reset();
-      setStudentList(prev => [...prev, studentData]);
-      alert(response.data.messsage);
+      // setStudentList(prev => [...prev, studentData]);
+      setStudentList(prev => [...prev, response.data.data]);
+      alert(response.data.message);
     } catch (error) {
       alert("Error registering student:", error);
     }
   }
 
-  return (
-    <div className="max-w-md flex-1 mx-auto mt-10 p-6 bg-black shadow-lg rounded-2xl">
-      <h2 className="text-2xl font-semibold mb-6 text-center">
-        Student Registration
-      </h2>
+  // return (
+  //   <div className="max-w-md flex-1 mx-auto mt-10 p-6 bg-black shadow-lg rounded-2xl">
+  //     <h2 className="text-2xl font-semibold mb-6 text-center">
+  //       Student Registration
+  //     </h2>
 
-      <form onSubmit={handleSubmit(registerStudent)} className="space-y-4">
-        {/* Name */}
-        <div>
-          <label className="block mb-1 text-sm font-medium">Name</label>
-          <input
-            type="text"
-            className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-            placeholder="Enter name"
-            {...register("name", {
-              required: "Name is required",
-              minLength: {
-                value: 3,
-                message: "Minimum 3 characters required",
-              },
-            })}
-          />
-          {errors.name && (
-            <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
-          )}
-        </div>
+  //     <form onSubmit={handleSubmit(registerStudent)} className="space-y-4">
+  //       {/* Name */}
+  //       <div>
+  //         <label className="block mb-1 text-sm font-medium">Name</label>
+  //         <input
+  //           type="text"
+  //           className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+  //           placeholder="Enter name"
+  //           {...register("name", {
+  //             required: "Name is required",
+  //             minLength: {
+  //               value: 3,
+  //               message: "Minimum 3 characters required",
+  //             },
+  //           })}
+  //         />
+  //         {errors.name && (
+  //           <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+  //         )}
+  //       </div>
 
-        {/* Course */}
-        <div>
-          <label className="block mb-1 text-sm font-medium">Course</label>
-          <select
-            className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-            {...register("course", {
-              required: "Course is required",
-            })}>
-            <option value="">Select course</option>
-            {courses.map(course => (
-              <option key={course} value={course}>
-                {course}
-              </option>
-            ))}
-          </select>
-          {errors.course && (
-            <p className="text-red-500 text-sm mt-1">{errors.course.message}</p>
-          )}
-        </div>
+  //       {/* Course */}
+  //       <div>
+  //         <label className="block mb-1 text-sm font-medium">Course</label>
+  //         <select
+  //           className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+  //           {...register("course", {
+  //             required: "Course is required",
+  //           })}>
+  //           <option value="">Select course</option>
+  //           {courses.map(course => (
+  //             <option key={course} value={course}>
+  //               {course}
+  //             </option>
+  //           ))}
+  //         </select>
+  //         {errors.course && (
+  //           <p className="text-red-500 text-sm mt-1">{errors.course.message}</p>
+  //         )}
+  //       </div>
 
-        {/* Contact */}
-        <div>
-          <label className="block mb-1 text-sm font-medium">Contact</label>
-          <input
-            type="text"
-            className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-            placeholder="Enter contact number"
-            {...register("contact", {
-              required: "Contact is required",
-              pattern: {
-                value: /^[0-9]{10}$/,
-                message: "Enter valid 10 digit number",
-              },
-            })}
-          />
-          {errors.contact && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.contact.message}
-            </p>
-          )}
-        </div>
+  //       {/* Contact */}
+  //       <div>
+  //         <label className="block mb-1 text-sm font-medium">Contact</label>
+  //         <input
+  //           type="text"
+  //           className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+  //           placeholder="Enter contact number"
+  //           {...register("contact", {
+  //             required: "Contact is required",
+  //             pattern: {
+  //               value: /^[0-9]{10}$/,
+  //               message: "Enter valid 10 digit number",
+  //             },
+  //           })}
+  //         />
+  //         {errors.contact && (
+  //           <p className="text-red-500 text-sm mt-1">
+  //             {errors.contact.message}
+  //           </p>
+  //         )}
+  //       </div>
 
-        {/* Image URL */}
-        <div>
-          <label className="block mb-1 text-sm font-medium">
-            Image URL (optional)
-          </label>
-          <input
-            type="file"
-            className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-            placeholder="Enter image URL"
-            {...register("studentImage", {
-              pattern: {
-                value: /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp))$/i,
-                message: "Enter valid image URL",
-              },
-            })}
-          />
-          {errors.image && (
-            <p className="text-red-500 text-sm mt-1">{errors.image.message}</p>
-          )}
-        </div>
+  //       {/* Image URL */}
+  //       <div>
+  //         <label className="block mb-1 text-sm font-medium">
+  //           Image URL (optional)
+  //         </label>
+  //         <input
+  //           type="file"
+  //           className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+  //           placeholder="Enter image URL"
+  //           {...register("studentImage", {
+  //             pattern: {
+  //               value: /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp))$/i,
+  //               message: "Enter valid image URL",
+  //             },
+  //           })}
+  //         />
+  //         {errors.image && (
+  //           <p className="text-red-500 text-sm mt-1">{errors.image.message}</p>
+  //         )}
+  //       </div>
 
-        {/* Submit */}
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition disabled:opacity-50">
-          {isSubmitting ? "Submitting..." : "Register"}
-        </button>
-      </form>
+  //       {/* Submit */}
+  //       <button
+  //         type="submit"
+  //         disabled={isSubmitting}
+  //         className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition disabled:opacity-50">
+  //         {isSubmitting ? "Submitting..." : "Register"}
+  //       </button>
+  //     </form>
+  //   </div>
+  // );
+
+return (
+  <div className="w-full">
+    <div className="mb-6">
+      <h2 className="text-2xl font-bold text-white">Student Registration</h2>
+      <p className="text-slate-400 text-sm mt-1">
+        Add and manage student records
+      </p>
     </div>
-  );
+
+    <form onSubmit={handleSubmit(registerStudent)} className="space-y-5">
+      {/* Name */}
+      <div>
+        <label className="block text-sm font-medium text-slate-300 mb-2">
+          Student Name
+        </label>
+
+        <input
+          type="text"
+          placeholder="Enter student name"
+          className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500"
+          {...register("name", {
+            required: "Name is required",
+            minLength: {
+              value: 3,
+              message: "Minimum 3 characters required",
+            },
+          })}
+        />
+
+        {errors.name && (
+          <p className="text-red-400 text-sm mt-2">{errors.name.message}</p>
+        )}
+      </div>
+
+      {/* Course */}
+      <div>
+        <label className="block text-sm font-medium text-slate-300 mb-2">
+          Course
+        </label>
+
+        <select
+          className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500"
+          {...register("course", {
+            required: "Course is required",
+          })}>
+          <option value="">Select Course</option>
+
+          {courses.map(course => (
+            <option key={course} value={course}>
+              {course}
+            </option>
+          ))}
+        </select>
+
+        {errors.course && (
+          <p className="text-red-400 text-sm mt-2">{errors.course.message}</p>
+        )}
+      </div>
+
+      {/* Contact */}
+      <div>
+        <label className="block text-sm font-medium text-slate-300 mb-2">
+          Contact Number
+        </label>
+
+        <input
+          type="text"
+          placeholder="Enter contact number"
+          className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500"
+          {...register("contact", {
+            required: "Contact is required",
+            pattern: {
+              value: /^[0-9]{10}$/,
+              message: "Enter valid 10 digit number",
+            },
+          })}
+        />
+
+        {errors.contact && (
+          <p className="text-red-400 text-sm mt-2">{errors.contact.message}</p>
+        )}
+      </div>
+
+      {/* Image */}
+      <div>
+        <label className="block text-sm font-medium text-slate-300 mb-2">
+          Profile Image
+        </label>
+
+        <input
+          type="file"
+          className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-slate-300 file:bg-blue-600 file:text-white file:border-0 file:px-4 file:py-2 file:rounded-lg file:mr-4"
+          {...register("studentImage")}
+        />
+      </div>
+
+      {/* Submit */}
+      <button
+        type="submit"
+        disabled={isSubmitting}
+        className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-xl font-semibold hover:scale-[1.01] transition-all disabled:opacity-50">
+        {isSubmitting ? "Registering..." : "Register Student"}
+      </button>
+    </form>
+  </div>
+);
 }
